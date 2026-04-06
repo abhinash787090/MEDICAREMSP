@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,114 +50,490 @@
             --warning-light: #452103;
             --success-light: #022c22;
             --danger-light: #450a0a;
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        
-        body { background-color: var(--bg-base); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; transition: var(--transition); }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            transition: var(--transition);
+        }
+
         /* Typography Utilities */
-        .h1 { font-size: 1.5rem; font-weight: 600; color: var(--text-main); }
-        .h2 { font-size: 1.25rem; font-weight: 600; color: var(--text-main); }
-        .text-sm { font-size: 0.875rem; }
-        .text-xs { font-size: 0.75rem; }
-        .text-muted { color: var(--text-muted); }
-        .font-medium { font-weight: 500; }
-        .font-semibold { font-weight: 600; }
-        
+        .h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
         /* Layout */
-        .sidebar { width: var(--sidebar-width); background: var(--bg-surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: var(--transition); z-index: 10; }
-        .sidebar-header { height: var(--header-height); display: flex; items-center; padding: 0 1.5rem; border-bottom: 1px solid var(--border); align-items: center; gap: 0.75rem;}
-        .sidebar-menu { padding: 1rem; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; }
-        .menu-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); color: var(--text-muted); text-decoration: none; font-weight: 500; cursor: pointer; transition: var(--transition); }
-        .menu-item:hover, .menu-item.active { background: var(--primary-light); color: var(--primary); }
-        .menu-item i { font-size: 1.25rem; }
-        
-        .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .header { height: var(--header-height); background: var(--bg-surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; transition: var(--transition); z-index: 5; }
-        
-        .header-search { display: flex; align-items: center; background: var(--bg-hover); padding: 0.5rem 1rem; border-radius: var(--radius-md); width: 300px; gap: 0.5rem;}
-        .header-search input { border: none; background: transparent; outline: none; width: 100%; color: var(--text-main); }
-        
-        .header-actions { display: flex; align-items: center; gap: 1.5rem; }
-        .icon-btn { background: var(--bg-hover); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
-        .icon-btn:hover { background: var(--border); color: var(--text-main); }
-        
-        .user-profile { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-        
-        .content-area { flex: 1; padding: 2rem; overflow-y: auto; scroll-behavior: smooth; }
-        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            height: var(--header-height);
+            display: flex;
+            items-center: padding: 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-menu {
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .menu-item i {
+            font-size: 1.25rem;
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            height: var(--header-height);
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            transition: var(--transition);
+            z-index: 5;
+        }
+
+        .header-search {
+            display: flex;
+            align-items: center;
+            background: var(--bg-hover);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            width: 300px;
+            gap: 0.5rem;
+        }
+
+        .header-search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: var(--text-main);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .icon-btn {
+            background: var(--bg-hover);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background: var(--border);
+            color: var(--text-main);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
         /* Components */
-        .card { background: var(--bg-surface); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: var(--transition); }
-        .card:hover { box-shadow: var(--shadow-md); }
-        
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .kpi-card { display: flex; flex-direction: column; gap: 0.5rem; }
-        .kpi-header { display: flex; justify-content: space-between; align-items: center; }
-        .kpi-icon { width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .kpi-value { font-size: 1.75rem; font-weight: 700; color: var(--text-main); }
-        
-        .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        
-        .btn { padding: 0.5rem 1rem; border-radius: var(--radius-md); border: none; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition); }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-hover); }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
-        .btn-outline:hover { background: var(--bg-hover); }
-        
-        .table-container { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 1rem; border-bottom: 1px solid var(--border); }
-        th { background: var(--bg-hover); color: var(--text-muted); font-weight: 600; font-size: 0.875rem; text-transform: uppercase; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover { background: var(--bg-hover); }
-        
-        .badge { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
-        .badge-success { background: var(--success-light); color: var(--success); }
-        .badge-warning { background: var(--warning-light); color: var(--warning); }
-        .badge-danger { background: var(--danger-light); color: var(--danger); }
-        .badge-primary { background: var(--primary-light); color: var(--primary); }
-        
-        .two-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;}
-        
+        .card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-hover);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-hover);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .badge-primary {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
         /* Modal */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: var(--transition); }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--bg-surface); border-radius: var(--radius-lg); width: 90%; max-width: 500px; padding: 2rem; transform: translateY(20px); transition: var(--transition); box-shadow: var(--shadow-lg); }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        
-        .form-group { margin-bottom: 1rem; }
-        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem; }
-        .form-control { width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-base); color: var(--text-main); outline: none; transition: var(--transition); }
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
-        
-        .role-selector { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
-        .role-chip { padding: 0.4rem 0.8rem; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-hover); color: var(--text-muted); font-size: 0.8rem; cursor: pointer; }
-        .role-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            transform: translateY(20px);
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--bg-base);
+            color: var(--text-main);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .role-chip {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-hover);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .role-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
 
         /* Animation */
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="text-primary">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--primary)"/>
-                <path d="M2 17L12 22L22 17" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2 12L12 17L22 12" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 7V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--primary)" />
+                <path d="M2 17L12 22L22 17" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M2 12L12 17L22 12" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M12 7V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <span class="h2">MediCare</span>
         </div>
@@ -179,7 +556,8 @@
                 </button>
                 <button class="icon-btn" style="position:relative;">
                     <i class="ph ph-bell"></i>
-                    <span style="position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%;"></span>
+                    <span
+                        style="position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%;"></span>
                 </button>
                 <div class="user-profile" onclick="openRoleModal()">
                     <div class="avatar" id="userAvatar">A</div>
@@ -210,150 +588,107 @@
         </div>
     </div>
 
-<script>
-/** 
- * MediCare Hospital Management System 
- * Fully In-Memory UI Prototype 
- */
+    <script>
+        /** 
+         * MediCare Hospital Management System 
+         * Fully In-Memory UI Prototype 
+         */
 
-// --- 1. Mock Data Source ---
-const db = {
-    roles: ['Admin', 'Doctor', 'Receptionist', 'Nurse', 'Lab Technician', 'Pharmacist', 'Patient'],
-    currentUserRole: 'Admin',
-    stats: {
-        patients: '1,248', admissions: '142', appointments: '38', revenue: '₹4,52,000'
-    },
-    patients: [
-        { id: 'PT-1001', name: 'Rahul Sharma', age: 45, gender: 'M', phone: '+91 9876543210', status: 'Admitted', lastVisit: '2023-11-01', type: 'IPD', diagnosis: 'Dengue Fever' },
-        { id: 'PT-1002', name: 'Sneha Patel', age: 32, gender: 'F', phone: '+91 9876543211', status: 'Discharged', lastVisit: '2023-10-25', type: 'OPD', diagnosis: 'Migraine' },
-        { id: 'PT-1003', name: 'Amit Kumar', age: 58, gender: 'M', phone: '+91 9876543212', status: 'Consulting', lastVisit: '2023-11-05', type: 'OPD', diagnosis: 'Hypertension' },
-        { id: 'PT-1004', name: 'Pooja Singh', age: 24, gender: 'F', phone: '+91 9876543213', status: 'Critical', lastVisit: '2023-11-04', type: 'ICU', diagnosis: 'Severe Asthma' },
-    ],
-    doctors: [
-        { id: 'DR-001', name: 'Dr. Vivek Menon', specialty: 'Cardiology', department: 'Cardiology', patients: 12, status: 'Available' },
-        { id: 'DR-002', name: 'Dr. Anjali Desai', specialty: 'Neurology', department: 'Neurology', patients: 8, status: 'In Surgery' },
-        { id: 'DR-003', name: 'Dr. Rajesh Khanna', specialty: 'Orthopedics', department: 'Orthopaedics', patients: 15, status: 'On Leave' },
-        { id: 'DR-004', name: 'Dr. Meera Vasudev', specialty: 'Pediatrics', department: 'Pediatrics', patients: 20, status: 'Available' }
-    ],
-    appointments: [
-        { id: 'AP-501', patient: 'Rahul Sharma', doctor: 'Dr. Vivek Menon', date: 'Today', time: '10:30 AM', status: 'Completed' },
-        { id: 'AP-502', patient: 'Ravi Teja', doctor: 'Dr. Anjali Desai', date: 'Today', time: '11:00 AM', status: 'Scheduled' },
-        { id: 'AP-503', patient: 'Alia Bhatt', doctor: 'Dr. Meera Vasudev', date: 'Today', time: '12:15 PM', status: 'Waiting' },
-        { id: 'AP-504', patient: 'Vikas Gupta', doctor: 'Dr. Rajesh Khanna', date: 'Tomorrow', time: '09:00 AM', status: 'Scheduled' }
-    ],
-    beds: [
-        { room: 'ICU-1', bed: 'B-01', type: 'ICU', patient: 'Pooja Singh', status: 'Occupied' },
-        { room: 'GEN-2', bed: 'B-12', type: 'General', patient: '-', status: 'Available' },
-        { room: 'PRV-1', bed: 'B-03', type: 'Private', patient: 'Rahul Sharma', status: 'Occupied' },
-        { room: 'GEN-2', bed: 'B-13', type: 'General', patient: '-', status: 'Maintenance' },
-    ],
-    labs: [
-        { id: 'TR-801', patient: 'Amit Kumar', test: 'Complete Blood Count (CBC)', date: '2023-11-05', status: 'Pending' },
-        { id: 'TR-802', patient: 'Sneha Patel', test: 'MRI Brain', date: '2023-11-04', status: 'Completed' },
-        { id: 'TR-803', patient: 'Rahul Sharma', test: 'Dengue NS1 Antigen', date: '2023-11-01', status: 'Completed' }
-    ],
-    pharmacy: [
-        { id: 'MED-101', name: 'Paracetamol 500mg', stock: 1250, batch: 'B782X', status: 'In Stock' },
-        { id: 'MED-102', name: 'Amoxicillin 250mg', stock: 15, batch: 'B822Y', status: 'Low Stock' },
-        { id: 'MED-103', name: 'Insulin Glargine', stock: 0, batch: 'B112Z', status: 'Out of Stock' }
-    ],
-    billing: [
-        { invoice: 'INV-4401', patient: 'Amit Kumar', date: '2023-11-05', amount: '₹1,200', status: 'Paid' },
-        { invoice: 'INV-4402', patient: 'Rahul Sharma', date: '2023-11-01', amount: '₹28,500', status: 'Pending' },
-        { invoice: 'INV-4403', patient: 'Sneha Patel', date: '2023-10-25', amount: '₹8,500', status: 'Paid' }
-    ],
-    navConfig: [
-        { id: 'dashboard', label: 'Dashboard', icon: 'ph-squares-four', roles: ['Admin', 'Doctor', 'Receptionist', 'Nurse', 'Lab Technician', 'Pharmacist', 'Patient'] },
-        { id: 'patients', label: 'Patients', icon: 'ph-users', roles: ['Admin', 'Doctor', 'Receptionist', 'Nurse'] },
-        { id: 'doctors', label: 'Doctors', icon: 'ph-stethoscope', roles: ['Admin', 'Receptionist', 'Patient'] },
-        { id: 'appointments', label: 'Appointments', icon: 'ph-calendar-plus', roles: ['Admin', 'Doctor', 'Receptionist', 'Patient'] },
-        { id: 'beds', label: 'Bed Management', icon: 'ph-bed', roles: ['Admin', 'Nurse', 'Receptionist'] },
-        { id: 'emr', label: 'EMR Records', icon: 'ph-file-text', roles: ['Admin', 'Doctor', 'Nurse'] },
-        { id: 'labs', label: 'Laboratories', icon: 'ph-microscope', roles: ['Admin', 'Lab Technician', 'Doctor', 'Patient'] },
-        { id: 'pharmacy', label: 'Pharmacy', icon: 'ph-pill', roles: ['Admin', 'Pharmacist', 'Doctor'] },
-        { id: 'billing', label: 'Billing', icon: 'ph-receipt', roles: ['Admin', 'Receptionist', 'Patient'] }
-    ]
-};
+        // --- 1. Mock Data Source ---
+        let db = {};
 
-// --- 2. State Management ---
-let currentModule = 'dashboard';
-let isDark = false;
+        // --- 2. State Management ---
+        let currentModule = 'dashboard';
+        let isDark = false;
 
-// --- 3. UI Helpers ---
-const badgeColor = (status) => {
-    switch(status.toLowerCase()) {
-        case 'completed': case 'available': case 'discharged': case 'paid': case 'in stock': return 'badge-success';
-        case 'pending': case 'scheduled': case 'occupied': case 'consulting': case 'low stock': return 'badge-warning';
-        case 'cancelled': case 'critical': case 'maintenance': case 'out of stock': return 'badge-danger';
-        case 'in surgery': case 'admitted': case 'waiting': return 'badge-primary';
-        default: return 'badge-primary';
-    }
-};
+        // --- 3. UI Helpers ---
+        const badgeColor = (status) => {
+            switch (status.toLowerCase()) {
+                case 'completed': case 'available': case 'discharged': case 'paid': case 'in stock': return 'badge-success';
+                case 'pending': case 'scheduled': case 'occupied': case 'consulting': case 'low stock': return 'badge-warning';
+                case 'cancelled': case 'critical': case 'maintenance': case 'out of stock': return 'badge-danger';
+                case 'in surgery': case 'admitted': case 'waiting': return 'badge-primary';
+                default: return 'badge-primary';
+            }
+        };
 
-const dom = (id) => document.getElementById(id);
+        const dom = (id) => document.getElementById(id);
 
-// --- 4. Render Layout based on Role ---
-function initApp() {
-    updateUserInfo();
-    renderSidebar();
-    loadModule(currentModule);
-}
-
-function updateUserInfo() {
-    dom('userNameDisplay').innerText = `${db.currentUserRole} User`;
-    dom('userRoleDisplay').innerText = db.currentUserRole;
-    dom('userAvatar').innerText = db.currentUserRole.charAt(0);
-}
-
-function renderSidebar() {
-    const sb = dom('sidebarMenu');
-    sb.innerHTML = '';
-    db.navConfig.forEach(item => {
-        if(item.roles.includes(db.currentUserRole)) {
-            const btn = document.createElement('a');
-            btn.className = `menu-item ${currentModule === item.id ? 'active' : ''}`;
-            btn.innerHTML = `<i class="ph ${item.icon}"></i> <span>${item.label}</span>`;
-            btn.onclick = () => { currentModule = item.id; renderSidebar(); loadModule(item.id); };
-            sb.appendChild(btn);
+        // --- 4. Render Layout based on Role ---
+        async function initApp() {
+            try {
+                const response = await fetch('http://localhost:3000/api/data');
+                db = await response.json();
+                
+                updateUserInfo();
+                renderSidebar();
+                loadModule(currentModule);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('contentArea').innerHTML = `
+                    <div class="card fade-in" style="background: var(--danger-light); border: 1px solid var(--danger); color: var(--danger);">
+                        <h2 style="margin-bottom: 1rem;"><i class="ph ph-warning-circle"></i> Service Unavailable</h2>
+                        <p>Failed to connect to the backend server. Make sure it is running on http://localhost:3000</p>
+                    </div>
+                `;
+            }
         }
-    });
-}
 
-function toggleTheme() {
-    isDark = !isDark;
-    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-    dom('themeToggle').innerHTML = isDark ? '<i class="ph ph-sun"></i>' : '<i class="ph ph-moon"></i>';
-    // Repaint charts
-    if (window.myChart1) window.myChart1.update();
-    if (window.myChart2) window.myChart2.update();
-}
+        function updateUserInfo() {
+            dom('userNameDisplay').innerText = `${db.currentUserRole} User`;
+            dom('userRoleDisplay').innerText = db.currentUserRole;
+            dom('userAvatar').innerText = db.currentUserRole.charAt(0);
+        }
 
-// --- Modal Logic ---
-function openModal(title, html) {
-    dom('modalTitle').innerText = title;
-    dom('modalBody').innerHTML = html;
-    dom('mainModal').classList.add('active');
-}
-function closeModal() {
-    dom('mainModal').classList.remove('active');
-}
-function openRoleModal() {
-    let chips = db.roles.map(r => `<button class="role-chip ${r === db.currentUserRole ? 'active' : ''}" onclick="switchRole('${r}')">${r}</button>`).join('');
-    openModal('Switch Demo Role', `<div class="text-sm text-muted mb-4">Select a role to view role-specific dashboards and permissions.</div><div class="role-selector">${chips}</div>`);
-}
-function switchRole(role) {
-    db.currentUserRole = role;
-    currentModule = 'dashboard';
-    closeModal();
-    initApp();
-}
+        function renderSidebar() {
+            const sb = dom('sidebarMenu');
+            sb.innerHTML = '';
+            db.navConfig.forEach(item => {
+                if (item.roles.includes(db.currentUserRole)) {
+                    const btn = document.createElement('a');
+                    btn.className = `menu-item ${currentModule === item.id ? 'active' : ''}`;
+                    btn.innerHTML = `<i class="ph ${item.icon}"></i> <span>${item.label}</span>`;
+                    btn.onclick = () => { currentModule = item.id; renderSidebar(); loadModule(item.id); };
+                    sb.appendChild(btn);
+                }
+            });
+        }
 
-// --- 5. Module Renderers ---
-const renderers = {
-    dashboard: () => {
-        let kpis = '';
-        if(['Admin', 'Doctor', 'Receptionist', 'Nurse'].includes(db.currentUserRole)) {
-             kpis = `
+        function toggleTheme() {
+            isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            dom('themeToggle').innerHTML = isDark ? '<i class="ph ph-sun"></i>' : '<i class="ph ph-moon"></i>';
+            // Repaint charts
+            if (window.myChart1) window.myChart1.update();
+            if (window.myChart2) window.myChart2.update();
+        }
+
+        // --- Modal Logic ---
+        function openModal(title, html) {
+            dom('modalTitle').innerText = title;
+            dom('modalBody').innerHTML = html;
+            dom('mainModal').classList.add('active');
+        }
+        function closeModal() {
+            dom('mainModal').classList.remove('active');
+        }
+        function openRoleModal() {
+            let chips = db.roles.map(r => `<button class="role-chip ${r === db.currentUserRole ? 'active' : ''}" onclick="switchRole('${r}')">${r}</button>`).join('');
+            openModal('Switch Demo Role', `<div class="text-sm text-muted mb-4">Select a role to view role-specific dashboards and permissions.</div><div class="role-selector">${chips}</div>`);
+        }
+        function switchRole(role) {
+            db.currentUserRole = role;
+            currentModule = 'dashboard';
+            closeModal();
+            initApp();
+        }
+
+        // --- 5. Module Renderers ---
+        const renderers = {
+            dashboard: () => {
+                let kpis = '';
+                if (['Admin', 'Doctor', 'Receptionist', 'Nurse'].includes(db.currentUserRole)) {
+                    kpis = `
                 <div class="kpi-grid fade-in">
                     <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Total Patients</div><div class="kpi-icon"><i class="ph ph-users"></i></div></div><div class="kpi-value">${db.stats.patients}</div></div>
                     <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Today's Appointments</div><div class="kpi-icon" style="color:var(--success); background:var(--success-light)"><i class="ph ph-calendar-check"></i></div></div><div class="kpi-value">${db.stats.appointments}</div></div>
@@ -361,14 +696,14 @@ const renderers = {
                     ${db.currentUserRole === 'Admin' ? `<div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Today's Revenue</div><div class="kpi-icon" style="color:var(--danger); background:var(--danger-light)"><i class="ph ph-currency-inr"></i></div></div><div class="kpi-value">${db.stats.revenue}</div></div>` : ''}
                 </div>
             `;
-        } else {
-            kpis = `<div class="card fade-in" style="margin-bottom:2rem;">
+                } else {
+                    kpis = `<div class="card fade-in" style="margin-bottom:2rem;">
                 <div class="h2 mb-4">Welcome back, ${db.currentUserRole}!</div>
                 <p class="text-muted">Here's your summary for today.</p>
             </div>`;
-        }
+                }
 
-        const charts = ['Admin', 'Doctor'].includes(db.currentUserRole) ? `
+                const charts = ['Admin', 'Doctor'].includes(db.currentUserRole) ? `
             <div class="two-cols fade-in">
                 <div class="card">
                     <h3 class="h2" style="margin-bottom:1rem;">Patient Flow</h3>
@@ -381,7 +716,7 @@ const renderers = {
             </div>
         ` : '';
 
-        const recentList = `
+                const recentList = `
             <div class="card fade-in">
                 <div class="flex-between">
                     <h3 class="h2">Today's Schedule</h3>
@@ -398,10 +733,10 @@ const renderers = {
                 </div>
             </div>
         `;
-        return kpis + charts + recentList;
-    },
+                return kpis + charts + recentList;
+            },
 
-    patients: () => `
+            patients: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Patients</h1><p class="text-muted text-sm mt-1">Manage patient records and histories.</p></div>
             <button class="btn btn-primary" onclick="alert('Open New Patient Form')"><i class="ph ph-plus"></i> Add Patient</button>
@@ -423,7 +758,7 @@ const renderers = {
         </div>
     `,
 
-    appointments: () => `
+            appointments: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Appointments</h1><p class="text-muted text-sm mt-1">Schedule and manage consultations.</p></div>
             <button class="btn btn-primary"><i class="ph ph-plus"></i> New Appointment</button>
@@ -443,8 +778,8 @@ const renderers = {
             </div>
         </div>
     `,
-    
-    doctors: () => `
+
+            doctors: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Doctors Staff</h1><p class="text-muted text-sm mt-1">Directory of hospital doctors.</p></div>
             ${db.currentUserRole === 'Admin' ? `<button class="btn btn-primary"><i class="ph ph-plus"></i> Add Doctor</button>` : ''}
@@ -463,7 +798,7 @@ const renderers = {
         </div>
     `,
 
-    billing: () => `
+            billing: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Billing & Invoices</h1><p class="text-muted text-sm mt-1">Manage patient bills and payments.</p></div>
             <button class="btn btn-primary"><i class="ph ph-receipt"></i> Generate Invoice</button>
@@ -482,8 +817,8 @@ const renderers = {
             </div>
         </div>
     `,
-    
-    pharmacy: () => `
+
+            pharmacy: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Pharmacy Inventory</h1><p class="text-muted text-sm mt-1">Manage medicines and stock.</p></div>
             <button class="btn btn-primary"><i class="ph ph-package"></i> Add Stock</button>
@@ -506,7 +841,7 @@ const renderers = {
         </div>
     `,
 
-    beds: () => `
+            beds: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Bed Management</h1><p class="text-muted text-sm mt-1">Track ward occupancy and allocations.</p></div>
         </div>
@@ -523,8 +858,8 @@ const renderers = {
             </div>
         </div>
     `,
-    
-    labs: () => `
+
+            labs: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Laboratory Hub</h1><p class="text-muted text-sm mt-1">Track diagnostic test requests and reports.</p></div>
         </div>
@@ -536,14 +871,14 @@ const renderers = {
                         <td class="text-xs text-muted">${l.id}</td><td>${l.date}</td><td class="font-medium">${l.patient}</td>
                         <td>${l.test}</td>
                         <td><span class="badge ${badgeColor(l.status)}">${l.status}</span></td>
-                        <td><button class="btn btn-outline text-xs" ${l.status==='Completed'?'':'disabled'}><i class="ph ph-file-pdf"></i> Result</button></td>
+                        <td><button class="btn btn-outline text-xs" ${l.status === 'Completed' ? '' : 'disabled'}><i class="ph ph-file-pdf"></i> Result</button></td>
                     </tr>`).join('')}</tbody>
                 </table>
             </div>
         </div>
     `,
 
-   emr: () => `
+            emr: () => `
         <div class="flex-between fade-in">
             <div><h1 class="h1">Electronic Medical Records</h1><p class="text-muted text-sm mt-1">Securely view patient medical histories.</p></div>
             <div class="header-search" style="width:250px; border:1px solid var(--border)">
@@ -556,61 +891,62 @@ const renderers = {
            <p class="text-muted">Select a patient to view their EMR history.</p>
         </div>
    `
-};
+        };
 
-function loadModule(moduleId) {
-    const content = dom('contentArea');
-    if(renderers[moduleId]) {
-        content.innerHTML = renderers[moduleId]();
-        if(moduleId === 'dashboard') setTimeout(initCharts, 100);
-    } else {
-        content.innerHTML = `<div class="card fade-in"><h2>Module Under Construction</h2><p class="text-muted mt-2">The ${moduleId} module is currently being built.</p></div>`;
-    }
-}
+        function loadModule(moduleId) {
+            const content = dom('contentArea');
+            if (renderers[moduleId]) {
+                content.innerHTML = renderers[moduleId]();
+                if (moduleId === 'dashboard') setTimeout(initCharts, 100);
+            } else {
+                content.innerHTML = `<div class="card fade-in"><h2>Module Under Construction</h2><p class="text-muted mt-2">The ${moduleId} module is currently being built.</p></div>`;
+            }
+        }
 
-// --- Charts Logic ---
-function initCharts() {
-    if(!document.getElementById('chart1')) return;
-    const ctx1 = document.getElementById('chart1').getContext('2d');
-    const ctx2 = document.getElementById('chart2').getContext('2d');
+        // --- Charts Logic ---
+        function initCharts() {
+            if (!document.getElementById('chart1')) return;
+            const ctx1 = document.getElementById('chart1').getContext('2d');
+            const ctx2 = document.getElementById('chart2').getContext('2d');
 
-    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-main');
-    const primary = getComputedStyle(document.documentElement).getPropertyValue('--primary');
-    
-    Chart.defaults.color = textColor;
+            const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-main');
+            const primary = getComputedStyle(document.documentElement).getPropertyValue('--primary');
 
-    window.myChart1 = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            datasets: [{
-                label: 'New Patients',
-                data: [65, 59, 80, 81, 56, 45, 90],
-                borderColor: primary,
-                tension: 0.4,
-                fill: true,
-                backgroundColor: 'rgba(13, 148, 136, 0.1)'
-            }]
-        },
-        options: { responsive: true, plugins: { legend: {display:false} } }
-    });
+            Chart.defaults.color = textColor;
 
-    window.myChart2 = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics'],
-            datasets: [{
-                data: [35, 20, 25, 20],
-                backgroundColor: ['#0d9488', '#3b82f6', '#f59e0b', '#8b5cf6']
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
-}
+            window.myChart1 = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'New Patients',
+                        data: [65, 59, 80, 81, 56, 45, 90],
+                        borderColor: primary,
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)'
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
 
-// Start app
-window.onload = initApp;
+            window.myChart2 = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics'],
+                    datasets: [{
+                        data: [35, 20, 25, 20],
+                        backgroundColor: ['#0d9488', '#3b82f6', '#f59e0b', '#8b5cf6']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
 
-</script>
+        // Start app
+        window.onload = initApp;
+
+    </script>
 </body>
+
 </html>
