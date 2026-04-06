@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare - Modern Hospital Management System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-hover: #0f766e;
+            --primary-light: #e0f2fe;
+            --bg-base: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-hover: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --success-light: #d1fae5;
+            --danger-light: #fee2e2;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            --transition: all 0.2s ease-in-out;
+        }
+
+        [data-theme="dark"] {
+            --primary: #14b8a6;
+            --primary-light: #1e293b;
+            --bg-base: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-hover: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --warning-light: #452103;
+            --success-light: #022c22;
+            --danger-light: #450a0a;
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background-color: var(--bg-base); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; transition: var(--transition); }
+        
+        /* Typography Utilities */
+        .h1 { font-size: 1.5rem; font-weight: 600; color: var(--text-main); }
+        .h2 { font-size: 1.25rem; font-weight: 600; color: var(--text-main); }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .text-muted { color: var(--text-muted); }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        
+        /* Layout */
+        .sidebar { width: var(--sidebar-width); background: var(--bg-surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: var(--transition); z-index: 10; }
+        .sidebar-header { height: var(--header-height); display: flex; items-center; padding: 0 1.5rem; border-bottom: 1px solid var(--border); align-items: center; gap: 0.75rem;}
+        .sidebar-menu { padding: 1rem; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; }
+        .menu-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); color: var(--text-muted); text-decoration: none; font-weight: 500; cursor: pointer; transition: var(--transition); }
+        .menu-item:hover, .menu-item.active { background: var(--primary-light); color: var(--primary); }
+        .menu-item i { font-size: 1.25rem; }
+        
+        .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { height: var(--header-height); background: var(--bg-surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; transition: var(--transition); z-index: 5; }
+        
+        .header-search { display: flex; align-items: center; background: var(--bg-hover); padding: 0.5rem 1rem; border-radius: var(--radius-md); width: 300px; gap: 0.5rem;}
+        .header-search input { border: none; background: transparent; outline: none; width: 100%; color: var(--text-main); }
+        
+        .header-actions { display: flex; align-items: center; gap: 1.5rem; }
+        .icon-btn { background: var(--bg-hover); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
+        .icon-btn:hover { background: var(--border); color: var(--text-main); }
+        
+        .user-profile { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+        
+        .content-area { flex: 1; padding: 2rem; overflow-y: auto; scroll-behavior: smooth; }
+        
+        /* Components */
+        .card { background: var(--bg-surface); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: var(--transition); }
+        .card:hover { box-shadow: var(--shadow-md); }
+        
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .kpi-card { display: flex; flex-direction: column; gap: 0.5rem; }
+        .kpi-header { display: flex; justify-content: space-between; align-items: center; }
+        .kpi-icon { width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .kpi-value { font-size: 1.75rem; font-weight: 700; color: var(--text-main); }
+        
+        .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        
+        .btn { padding: 0.5rem 1rem; border-radius: var(--radius-md); border: none; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg-hover); }
+        
+        .table-container { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1rem; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-hover); color: var(--text-muted); font-weight: 600; font-size: 0.875rem; text-transform: uppercase; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: var(--bg-hover); }
+        
+        .badge { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+        .badge-success { background: var(--success-light); color: var(--success); }
+        .badge-warning { background: var(--warning-light); color: var(--warning); }
+        .badge-danger { background: var(--danger-light); color: var(--danger); }
+        .badge-primary { background: var(--primary-light); color: var(--primary); }
+        
+        .two-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;}
+        
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: var(--transition); }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--bg-surface); border-radius: var(--radius-lg); width: 90%; max-width: 500px; padding: 2rem; transform: translateY(20px); transition: var(--transition); box-shadow: var(--shadow-lg); }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem; }
+        .form-control { width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-base); color: var(--text-main); outline: none; transition: var(--transition); }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+        
+        .role-selector { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+        .role-chip { padding: 0.4rem 0.8rem; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-hover); color: var(--text-muted); font-size: 0.8rem; cursor: pointer; }
+        .role-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Animation */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="text-primary">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--primary)"/>
+                <path d="M2 17L12 22L22 17" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 7V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="h2">MediCare</span>
+        </div>
+        <nav class="sidebar-menu" id="sidebarMenu">
+            <!-- Rendered by JS based on role -->
+        </nav>
+    </aside>
+
+    <!-- Main ContentWrapper -->
+    <main class="main-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-search">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" placeholder="Search patients, doctors...">
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="toggleTheme()" id="themeToggle">
+                    <i class="ph ph-moon"></i>
+                </button>
+                <button class="icon-btn" style="position:relative;">
+                    <i class="ph ph-bell"></i>
+                    <span style="position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%;"></span>
+                </button>
+                <div class="user-profile" onclick="openRoleModal()">
+                    <div class="avatar" id="userAvatar">A</div>
+                    <div>
+                        <div class="font-semibold text-sm" id="userNameDisplay">Admin User</div>
+                        <div class="text-xs text-muted" id="userRoleDisplay">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <div class="content-area" id="contentArea">
+            <!-- Injected by JS -->
+        </div>
+    </main>
+
+    <!-- Generic Modal -->
+    <div class="modal-overlay" id="mainModal">
+        <div class="modal-content">
+            <div class="flex-between">
+                <h3 class="h2" id="modalTitle">Modal Details</h3>
+                <button class="icon-btn" onclick="closeModal()"><i class="ph ph-x"></i></button>
+            </div>
+            <div id="modalBody">
+                <!-- Content injected based on action -->
+            </div>
+        </div>
+    </div>
+
+<script>
+/** 
+ * MediCare Hospital Management System 
+ * Fully In-Memory UI Prototype 
+ */
+
+// --- 1. Mock Data Source ---
+const db = {
+    roles: ['Admin', 'Doctor', 'Receptionist', 'Nurse', 'Lab Technician', 'Pharmacist', 'Patient'],
+    currentUserRole: 'Admin',
+    stats: {
+        patients: '1,248', admissions: '142', appointments: '38', revenue: '₹4,52,000'
+    },
+    patients: [
+        { id: 'PT-1001', name: 'Rahul Sharma', age: 45, gender: 'M', phone: '+91 9876543210', status: 'Admitted', lastVisit: '2023-11-01', type: 'IPD', diagnosis: 'Dengue Fever' },
+        { id: 'PT-1002', name: 'Sneha Patel', age: 32, gender: 'F', phone: '+91 9876543211', status: 'Discharged', lastVisit: '2023-10-25', type: 'OPD', diagnosis: 'Migraine' },
+        { id: 'PT-1003', name: 'Amit Kumar', age: 58, gender: 'M', phone: '+91 9876543212', status: 'Consulting', lastVisit: '2023-11-05', type: 'OPD', diagnosis: 'Hypertension' },
+        { id: 'PT-1004', name: 'Pooja Singh', age: 24, gender: 'F', phone: '+91 9876543213', status: 'Critical', lastVisit: '2023-11-04', type: 'ICU', diagnosis: 'Severe Asthma' },
+    ],
+    doctors: [
+        { id: 'DR-001', name: 'Dr. Vivek Menon', specialty: 'Cardiology', department: 'Cardiology', patients: 12, status: 'Available' },
+        { id: 'DR-002', name: 'Dr. Anjali Desai', specialty: 'Neurology', department: 'Neurology', patients: 8, status: 'In Surgery' },
+        { id: 'DR-003', name: 'Dr. Rajesh Khanna', specialty: 'Orthopedics', department: 'Orthopaedics', patients: 15, status: 'On Leave' },
+        { id: 'DR-004', name: 'Dr. Meera Vasudev', specialty: 'Pediatrics', department: 'Pediatrics', patients: 20, status: 'Available' }
+    ],
+    appointments: [
+        { id: 'AP-501', patient: 'Rahul Sharma', doctor: 'Dr. Vivek Menon', date: 'Today', time: '10:30 AM', status: 'Completed' },
+        { id: 'AP-502', patient: 'Ravi Teja', doctor: 'Dr. Anjali Desai', date: 'Today', time: '11:00 AM', status: 'Scheduled' },
+        { id: 'AP-503', patient: 'Alia Bhatt', doctor: 'Dr. Meera Vasudev', date: 'Today', time: '12:15 PM', status: 'Waiting' },
+        { id: 'AP-504', patient: 'Vikas Gupta', doctor: 'Dr. Rajesh Khanna', date: 'Tomorrow', time: '09:00 AM', status: 'Scheduled' }
+    ],
+    beds: [
+        { room: 'ICU-1', bed: 'B-01', type: 'ICU', patient: 'Pooja Singh', status: 'Occupied' },
+        { room: 'GEN-2', bed: 'B-12', type: 'General', patient: '-', status: 'Available' },
+        { room: 'PRV-1', bed: 'B-03', type: 'Private', patient: 'Rahul Sharma', status: 'Occupied' },
+        { room: 'GEN-2', bed: 'B-13', type: 'General', patient: '-', status: 'Maintenance' },
+    ],
+    labs: [
+        { id: 'TR-801', patient: 'Amit Kumar', test: 'Complete Blood Count (CBC)', date: '2023-11-05', status: 'Pending' },
+        { id: 'TR-802', patient: 'Sneha Patel', test: 'MRI Brain', date: '2023-11-04', status: 'Completed' },
+        { id: 'TR-803', patient: 'Rahul Sharma', test: 'Dengue NS1 Antigen', date: '2023-11-01', status: 'Completed' }
+    ],
+    pharmacy: [
+        { id: 'MED-101', name: 'Paracetamol 500mg', stock: 1250, batch: 'B782X', status: 'In Stock' },
+        { id: 'MED-102', name: 'Amoxicillin 250mg', stock: 15, batch: 'B822Y', status: 'Low Stock' },
+        { id: 'MED-103', name: 'Insulin Glargine', stock: 0, batch: 'B112Z', status: 'Out of Stock' }
+    ],
+    billing: [
+        { invoice: 'INV-4401', patient: 'Amit Kumar', date: '2023-11-05', amount: '₹1,200', status: 'Paid' },
+        { invoice: 'INV-4402', patient: 'Rahul Sharma', date: '2023-11-01', amount: '₹28,500', status: 'Pending' },
+        { invoice: 'INV-4403', patient: 'Sneha Patel', date: '2023-10-25', amount: '₹8,500', status: 'Paid' }
+    ],
+    navConfig: [
+        { id: 'dashboard', label: 'Dashboard', icon: 'ph-squares-four', roles: ['Admin', 'Doctor', 'Receptionist', 'Nurse', 'Lab Technician', 'Pharmacist', 'Patient'] },
+        { id: 'patients', label: 'Patients', icon: 'ph-users', roles: ['Admin', 'Doctor', 'Receptionist', 'Nurse'] },
+        { id: 'doctors', label: 'Doctors', icon: 'ph-stethoscope', roles: ['Admin', 'Receptionist', 'Patient'] },
+        { id: 'appointments', label: 'Appointments', icon: 'ph-calendar-plus', roles: ['Admin', 'Doctor', 'Receptionist', 'Patient'] },
+        { id: 'beds', label: 'Bed Management', icon: 'ph-bed', roles: ['Admin', 'Nurse', 'Receptionist'] },
+        { id: 'emr', label: 'EMR Records', icon: 'ph-file-text', roles: ['Admin', 'Doctor', 'Nurse'] },
+        { id: 'labs', label: 'Laboratories', icon: 'ph-microscope', roles: ['Admin', 'Lab Technician', 'Doctor', 'Patient'] },
+        { id: 'pharmacy', label: 'Pharmacy', icon: 'ph-pill', roles: ['Admin', 'Pharmacist', 'Doctor'] },
+        { id: 'billing', label: 'Billing', icon: 'ph-receipt', roles: ['Admin', 'Receptionist', 'Patient'] }
+    ]
+};
+
+// --- 2. State Management ---
+let currentModule = 'dashboard';
+let isDark = false;
+
+// --- 3. UI Helpers ---
+const badgeColor = (status) => {
+    switch(status.toLowerCase()) {
+        case 'completed': case 'available': case 'discharged': case 'paid': case 'in stock': return 'badge-success';
+        case 'pending': case 'scheduled': case 'occupied': case 'consulting': case 'low stock': return 'badge-warning';
+        case 'cancelled': case 'critical': case 'maintenance': case 'out of stock': return 'badge-danger';
+        case 'in surgery': case 'admitted': case 'waiting': return 'badge-primary';
+        default: return 'badge-primary';
+    }
+};
+
+const dom = (id) => document.getElementById(id);
+
+// --- 4. Render Layout based on Role ---
+function initApp() {
+    updateUserInfo();
+    renderSidebar();
+    loadModule(currentModule);
+}
+
+function updateUserInfo() {
+    dom('userNameDisplay').innerText = `${db.currentUserRole} User`;
+    dom('userRoleDisplay').innerText = db.currentUserRole;
+    dom('userAvatar').innerText = db.currentUserRole.charAt(0);
+}
+
+function renderSidebar() {
+    const sb = dom('sidebarMenu');
+    sb.innerHTML = '';
+    db.navConfig.forEach(item => {
+        if(item.roles.includes(db.currentUserRole)) {
+            const btn = document.createElement('a');
+            btn.className = `menu-item ${currentModule === item.id ? 'active' : ''}`;
+            btn.innerHTML = `<i class="ph ${item.icon}"></i> <span>${item.label}</span>`;
+            btn.onclick = () => { currentModule = item.id; renderSidebar(); loadModule(item.id); };
+            sb.appendChild(btn);
+        }
+    });
+}
+
+function toggleTheme() {
+    isDark = !isDark;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    dom('themeToggle').innerHTML = isDark ? '<i class="ph ph-sun"></i>' : '<i class="ph ph-moon"></i>';
+    // Repaint charts
+    if (window.myChart1) window.myChart1.update();
+    if (window.myChart2) window.myChart2.update();
+}
+
+// --- Modal Logic ---
+function openModal(title, html) {
+    dom('modalTitle').innerText = title;
+    dom('modalBody').innerHTML = html;
+    dom('mainModal').classList.add('active');
+}
+function closeModal() {
+    dom('mainModal').classList.remove('active');
+}
+function openRoleModal() {
+    let chips = db.roles.map(r => `<button class="role-chip ${r === db.currentUserRole ? 'active' : ''}" onclick="switchRole('${r}')">${r}</button>`).join('');
+    openModal('Switch Demo Role', `<div class="text-sm text-muted mb-4">Select a role to view role-specific dashboards and permissions.</div><div class="role-selector">${chips}</div>`);
+}
+function switchRole(role) {
+    db.currentUserRole = role;
+    currentModule = 'dashboard';
+    closeModal();
+    initApp();
+}
+
+// --- 5. Module Renderers ---
+const renderers = {
+    dashboard: () => {
+        let kpis = '';
+        if(['Admin', 'Doctor', 'Receptionist', 'Nurse'].includes(db.currentUserRole)) {
+             kpis = `
+                <div class="kpi-grid fade-in">
+                    <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Total Patients</div><div class="kpi-icon"><i class="ph ph-users"></i></div></div><div class="kpi-value">${db.stats.patients}</div></div>
+                    <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Today's Appointments</div><div class="kpi-icon" style="color:var(--success); background:var(--success-light)"><i class="ph ph-calendar-check"></i></div></div><div class="kpi-value">${db.stats.appointments}</div></div>
+                    <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Admitted Patients</div><div class="kpi-icon" style="color:var(--warning); background:var(--warning-light)"><i class="ph ph-bed"></i></div></div><div class="kpi-value">${db.stats.admissions}</div></div>
+                    ${db.currentUserRole === 'Admin' ? `<div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Today's Revenue</div><div class="kpi-icon" style="color:var(--danger); background:var(--danger-light)"><i class="ph ph-currency-inr"></i></div></div><div class="kpi-value">${db.stats.revenue}</div></div>` : ''}
+                </div>
+            `;
+        } else {
+            kpis = `<div class="card fade-in" style="margin-bottom:2rem;">
+                <div class="h2 mb-4">Welcome back, ${db.currentUserRole}!</div>
+                <p class="text-muted">Here's your summary for today.</p>
+            </div>`;
+        }
+
+        const charts = ['Admin', 'Doctor'].includes(db.currentUserRole) ? `
+            <div class="two-cols fade-in">
+                <div class="card">
+                    <h3 class="h2" style="margin-bottom:1rem;">Patient Flow</h3>
+                    <canvas id="chart1" height="100"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="h2" style="margin-bottom:1rem;">Appointments by Dept</h3>
+                    <canvas id="chart2" height="220"></canvas>
+                </div>
+            </div>
+        ` : '';
+
+        const recentList = `
+            <div class="card fade-in">
+                <div class="flex-between">
+                    <h3 class="h2">Today's Schedule</h3>
+                    <button class="btn btn-outline text-sm">View All</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th></tr></thead>
+                        <tbody>${db.appointments.map(a => `<tr>
+                            <td class="font-medium">${a.patient}</td><td>${a.doctor}</td><td>${a.time}</td>
+                            <td><span class="badge ${badgeColor(a.status)}">${a.status}</span></td>
+                        </tr>`).join('')}</tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        return kpis + charts + recentList;
+    },
+
+    patients: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Patients</h1><p class="text-muted text-sm mt-1">Manage patient records and histories.</p></div>
+            <button class="btn btn-primary" onclick="alert('Open New Patient Form')"><i class="ph ph-plus"></i> Add Patient</button>
+        </div>
+        <div class="card fade-in">
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>ID</th><th>Patient Name</th><th>Type</th><th>Diagnosis</th><th>Status</th><th>Last Visit</th><th>Action</th></tr></thead>
+                    <tbody>${db.patients.map(p => `<tr>
+                        <td><span class="text-xs text-muted">${p.id}</span></td>
+                        <td><div class="font-medium">${p.name}</div><div class="text-xs text-muted">${p.age} Yrs, ${p.gender}</div></td>
+                        <td>${p.type}</td><td>${p.diagnosis}</td>
+                        <td><span class="badge ${badgeColor(p.status)}">${p.status}</span></td>
+                        <td class="text-sm">${p.lastVisit}</td>
+                        <td><button class="btn btn-outline text-xs"><i class="ph ph-eye"></i> View</button></td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        </div>
+    `,
+
+    appointments: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Appointments</h1><p class="text-muted text-sm mt-1">Schedule and manage consultations.</p></div>
+            <button class="btn btn-primary"><i class="ph ph-plus"></i> New Appointment</button>
+        </div>
+        <div class="card fade-in">
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>ID</th><th>Date & Time</th><th>Patient</th><th>Doctor</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody>${db.appointments.map(a => `<tr>
+                        <td><span class="text-xs text-muted">${a.id}</span></td>
+                        <td><div class="font-medium">${a.date}</div><div class="text-xs text-muted">${a.time}</div></td>
+                        <td class="font-medium">${a.patient}</td><td>${a.doctor}</td>
+                        <td><span class="badge ${badgeColor(a.status)}">${a.status}</span></td>
+                        <td><button class="btn btn-outline text-xs"><i class="ph ph-pencil-simple"></i> Edit</button></td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        </div>
+    `,
+    
+    doctors: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Doctors Staff</h1><p class="text-muted text-sm mt-1">Directory of hospital doctors.</p></div>
+            ${db.currentUserRole === 'Admin' ? `<button class="btn btn-primary"><i class="ph ph-plus"></i> Add Doctor</button>` : ''}
+        </div>
+        <div class="kpi-grid fade-in">
+            ${db.doctors.map(d => `
+                <div class="card flex" style="flex-direction:row; align-items:center; gap:1rem;">
+                    <div class="avatar" style="width:60px; height:60px; font-size:1.5rem;">${d.name.charAt(4)}</div>
+                    <div>
+                        <div class="font-semibold" style="font-size:1.1rem;">${d.name}</div>
+                        <div class="text-sm text-muted mb-2">${d.specialty}</div>
+                        <span class="badge ${badgeColor(d.status)}">${d.status}</span>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `,
+
+    billing: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Billing & Invoices</h1><p class="text-muted text-sm mt-1">Manage patient bills and payments.</p></div>
+            <button class="btn btn-primary"><i class="ph ph-receipt"></i> Generate Invoice</button>
+        </div>
+        <div class="card fade-in">
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Invoice No.</th><th>Date</th><th>Patient</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody>${db.billing.map(b => `<tr>
+                        <td class="font-medium">${b.invoice}</td><td>${b.date}</td><td>${b.patient}</td>
+                        <td class="font-semibold">${b.amount}</td>
+                        <td><span class="badge ${badgeColor(b.status)}">${b.status}</span></td>
+                        <td><button class="btn btn-outline text-xs"><i class="ph ph-download-simple"></i> PDF</button></td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        </div>
+    `,
+    
+    pharmacy: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Pharmacy Inventory</h1><p class="text-muted text-sm mt-1">Manage medicines and stock.</p></div>
+            <button class="btn btn-primary"><i class="ph ph-package"></i> Add Stock</button>
+        </div>
+        <div class="kpi-grid fade-in mb-4">
+             <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Total Medicines</div></div><div class="kpi-value">442</div></div>
+             <div class="card kpi-card"><div class="kpi-header"><div class="text-muted font-medium">Low Stock Alerts</div></div><div class="kpi-value text-danger" style="color:var(--danger)">14</div></div>
+        </div>
+        <div class="card fade-in">
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Code</th><th>Medicine Name</th><th>Batch</th><th>Stock Qty</th><th>Status</th></tr></thead>
+                    <tbody>${db.pharmacy.map(m => `<tr>
+                        <td class="text-xs text-muted">${m.id}</td><td class="font-medium">${m.name}</td><td>${m.batch}</td>
+                        <td>${m.stock} Units</td>
+                        <td><span class="badge ${badgeColor(m.status)}">${m.status}</span></td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        </div>
+    `,
+
+    beds: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Bed Management</h1><p class="text-muted text-sm mt-1">Track ward occupancy and allocations.</p></div>
+        </div>
+        <div class="card fade-in">
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Room</th><th>Bed No</th><th>Type</th><th>Patient Assigned</th><th>Status</th></tr></thead>
+                    <tbody>${db.beds.map(b => `<tr>
+                        <td class="font-medium">${b.room}</td><td>${b.bed}</td><td>${b.type}</td>
+                        <td>${b.patient}</td>
+                        <td><span class="badge ${badgeColor(b.status)}">${b.status}</span></td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        </div>
+    `,
+    
+    labs: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Laboratory Hub</h1><p class="text-muted text-sm mt-1">Track diagnostic test requests and reports.</p></div>
+        </div>
+        <div class="card fade-in">
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Test ID</th><th>Date</th><th>Patient</th><th>Test Type</th><th>Status</th><th>Report</th></tr></thead>
+                    <tbody>${db.labs.map(l => `<tr>
+                        <td class="text-xs text-muted">${l.id}</td><td>${l.date}</td><td class="font-medium">${l.patient}</td>
+                        <td>${l.test}</td>
+                        <td><span class="badge ${badgeColor(l.status)}">${l.status}</span></td>
+                        <td><button class="btn btn-outline text-xs" ${l.status==='Completed'?'':'disabled'}><i class="ph ph-file-pdf"></i> Result</button></td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+        </div>
+    `,
+
+   emr: () => `
+        <div class="flex-between fade-in">
+            <div><h1 class="h1">Electronic Medical Records</h1><p class="text-muted text-sm mt-1">Securely view patient medical histories.</p></div>
+            <div class="header-search" style="width:250px; border:1px solid var(--border)">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" placeholder="Search Patient ID...">
+            </div>
+        </div>
+        <div class="card fade-in flex" style="align-items:center; justify-content:center; height:300px; flex-direction:column; gap:1rem;">
+           <i class="ph ph-file-dashed text-muted" style="font-size:4rem;"></i>
+           <p class="text-muted">Select a patient to view their EMR history.</p>
+        </div>
+   `
+};
+
+function loadModule(moduleId) {
+    const content = dom('contentArea');
+    if(renderers[moduleId]) {
+        content.innerHTML = renderers[moduleId]();
+        if(moduleId === 'dashboard') setTimeout(initCharts, 100);
+    } else {
+        content.innerHTML = `<div class="card fade-in"><h2>Module Under Construction</h2><p class="text-muted mt-2">The ${moduleId} module is currently being built.</p></div>`;
+    }
+}
+
+// --- Charts Logic ---
+function initCharts() {
+    if(!document.getElementById('chart1')) return;
+    const ctx1 = document.getElementById('chart1').getContext('2d');
+    const ctx2 = document.getElementById('chart2').getContext('2d');
+
+    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-main');
+    const primary = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+    
+    Chart.defaults.color = textColor;
+
+    window.myChart1 = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'New Patients',
+                data: [65, 59, 80, 81, 56, 45, 90],
+                borderColor: primary,
+                tension: 0.4,
+                fill: true,
+                backgroundColor: 'rgba(13, 148, 136, 0.1)'
+            }]
+        },
+        options: { responsive: true, plugins: { legend: {display:false} } }
+    });
+
+    window.myChart2 = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics'],
+            datasets: [{
+                data: [35, 20, 25, 20],
+                backgroundColor: ['#0d9488', '#3b82f6', '#f59e0b', '#8b5cf6']
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+}
+
+// Start app
+window.onload = initApp;
+
+</script>
+</body>
+</html>
